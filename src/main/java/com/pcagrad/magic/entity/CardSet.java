@@ -2,15 +2,17 @@ package com.pcagrad.magic.entity;
 
 import com.pcagrad.magic.util.Localization;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.util.*;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "card_set")
 @Inheritance(strategy = InheritanceType.JOINED)

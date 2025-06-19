@@ -14,11 +14,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "magic_type_translation")
-public class MagicTypeTranslation {
-    @Id
-    @GeneratedValue
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+public class MagicTypeTranslation extends AbstractUuidEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)

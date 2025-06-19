@@ -114,19 +114,6 @@ public class MagicCard extends Card {
     @Column(name = "is_affichable", nullable = false)
     private Boolean isAffichable = false;
 
-    // ===== MÉTHODES PERSONNALISÉES (remplacent les getters/setters Lombok pour certains champs) =====
-
-    /**
-     * Override des getters/setters pour colors - gère à la fois String et List<String>
-     */
-    public String getColors() {
-        return this.colors;
-    }
-
-    public void setColors(String colors) {
-        this.colors = colors;
-    }
-
     // MÉTHODE ADDITIONNELLE pour retourner une liste (pour compatibilité avec MtgCard)
     public List<String> getColorsList() {
         return parseStringToList(this.colors);
@@ -136,16 +123,6 @@ public class MagicCard extends Card {
         this.colors = listToString(colorsList);
     }
 
-    /**
-     * Override des getters/setters pour colorIdentity - gère à la fois String et List<String>
-     */
-    public String getColorIdentity() {
-        return this.colorIdentity;
-    }
-
-    public void setColorIdentity(String colorIdentity) {
-        this.colorIdentity = colorIdentity;
-    }
 
     // MÉTHODE ADDITIONNELLE pour retourner une liste (pour compatibilité avec MtgCard)
     public List<String> getColorIdentityList() {
@@ -156,16 +133,6 @@ public class MagicCard extends Card {
         this.colorIdentity = listToString(colorIdentityList);
     }
 
-    /**
-     * Override des getters/setters pour types - gère à la fois String et List<String>
-     */
-    public String getTypes() {
-        return this.types;
-    }
-
-    public void setTypes(String types) {
-        this.types = types;
-    }
 
     // MÉTHODE ADDITIONNELLE pour retourner une liste (pour compatibilité avec MtgCard)
     public List<String> getTypesList() {

@@ -3,23 +3,21 @@ package com.pcagrad.magic.entity;
 import com.pcagrad.magic.util.Localization;
 import com.pcagrad.magic.util.LocalizationConverter;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "card_translation")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "discriminator")
 @DiscriminatorValue("bas")
 public class CardTranslation  extends AbstractUuidEntity{
-	@Id
-	@GeneratedValue
-	@Column(name = "id", updatable = false, nullable = false)
-	private UUID id;
 
 	private boolean available;
 

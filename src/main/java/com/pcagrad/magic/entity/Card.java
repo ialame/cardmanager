@@ -2,13 +2,15 @@ package com.pcagrad.magic.entity;
 
 import com.pcagrad.magic.util.Localization;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "card")
 @Inheritance(strategy = InheritanceType.JOINED)

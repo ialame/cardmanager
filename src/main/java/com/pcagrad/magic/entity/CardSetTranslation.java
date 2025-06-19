@@ -3,15 +3,17 @@ package com.pcagrad.magic.entity;
 import com.pcagrad.magic.util.Localization;
 import com.pcagrad.magic.util.LocalizationConverter;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "card_set_translation")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -20,10 +22,6 @@ import java.util.UUID;
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class CardSetTranslation  extends AbstractUuidEntity{
-	@Id
-	@GeneratedValue
-	@Column(name = "id", updatable = false, nullable = false)
-	private UUID id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "translatable_id")

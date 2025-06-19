@@ -33,25 +33,6 @@ public interface CardRepository extends JpaRepository<MagicCard, UUID> {
             "WHERE t.name = :name AND mc.zPostExtension = :setCode AND t.localization = com.pcagrad.magic.util.Localization.USA")
     List<MagicCard> findByNameAndSetCode(@Param("name") String name, @Param("setCode") String setCode);
 
-    /**
-     * Recherche avec filtres
-     */
-//    @Query("SELECT mc FROM MagicCard mc " +
-//            "JOIN mc.translations t " +
-//            "WHERE (:name IS NULL OR t.name LIKE %:name%) " +
-//            "AND (:setCode IS NULL OR mc.zPostExtension = :setCode) " +
-//            "AND (:rarity IS NULL OR mc.rarity = :rarity) " +
-//            "AND (:type IS NULL OR mc.type LIKE %:type%) " +
-//            "AND (:artist IS NULL OR mc.artist LIKE %:artist%) " +
-//            "AND t.localization = com.pcagrad.magic.util.Localization.USA")
-//    Page<MagicCard> findCardsWithFilters(@Param("name") String name,
-//                                         @Param("setCode") String setCode,
-//                                         @Param("rarity") String rarity,
-//                                         @Param("type") String type,
-//                                         @Param("artist") String artist,
-//                                         Pageable pageable);
-
-
     @Query("SELECT mc FROM MagicCard mc " +
             "JOIN mc.translations t " +
             "WHERE (:name IS NULL OR LOWER(t.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
@@ -227,15 +208,19 @@ public interface CardRepository extends JpaRepository<MagicCard, UUID> {
     /**
      * Trouver les cartes d'une extension qui n'ont pas de relations dans card_card_set
      */
-    @Query("SELECT mc FROM MagicCard mc WHERE mc.zPostExtension = :setCode " +
-            "AND mc.id NOT IN (SELECT DISTINCT ccs.card.id FROM CardCardSet ccs)")
+// ✅ CORRECT
+    @Query("SELECT mc FROM MagicCard mc " +
+            "LEFT JOIN mc.cardSets cs " +
+            "WHERE mc.zPostExtension = :setCode " +
+            "AND cs IS NULL")
     List<MagicCard> findCardsWithoutSetRelation(@Param("setCode") String setCode);
 
     /**
      * Compter les relations pour une extension spécifique
      */
-    @Query("SELECT COUNT(ccs) FROM card_card_set ccs " +
-            "JOIN magic_set ms ON ccs.card_set_id = ms.id " +
+    // ✅ CORRECT - Utiliser 'value'
+    @Query(value = "SELECT COUNT(*) FROM card_card_set ccs " +
+            "INNER JOIN magic_set ms ON ccs.card_set_id = ms.id " +
             "WHERE ms.code = :setCode", nativeQuery = true)
     long countRelationsBySetCode(@Param("setCode") String setCode);
 
@@ -244,7 +229,7 @@ public interface CardRepository extends JpaRepository<MagicCard, UUID> {
      */
     @Query("SELECT COUNT(mc) FROM MagicCard mc " +
             "WHERE mc.zPostExtension = :setCode " +
-            "AND mc.id IN (SELECT DISTINCT ccs.card.id FROM CardCardSet ccs)")
+            "AND SIZE(mc.cardSets) > 0")
     long countCardsWithRelationsBySetCode(@Param("setCode") String setCode);
 
     /**

@@ -5,24 +5,22 @@ import com.pcagrad.magic.util.LocalizationConverter;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "serie_translation")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "discriminator")
 @DiscriminatorValue("mag")
 public class SerieTranslation extends AbstractUuidEntity {
-
-    @Id
-    @GeneratedValue
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
 
     // *** SOLUTION : Utiliser un converter personnalisé pour stocker les codes courts ***
     @Convert(converter = LocalizationConverter.class)
