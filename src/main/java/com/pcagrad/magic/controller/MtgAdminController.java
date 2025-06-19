@@ -16,6 +16,7 @@ import com.pcagrad.magic.service.ImageDownloadService;
 import com.pcagrad.magic.service.MtgService;
 import com.pcagrad.magic.service.ScryfallService;
 import com.pcagrad.magic.util.Localization;
+import com.pcagrad.magic.util.UlidUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -153,7 +154,7 @@ public class MtgAdminController {
             for (MtgCard mtgCard : finCards) {
                 try {
                     MagicCard entity = new MagicCard();
-                    entity.setId(UUID.randomUUID());
+                    entity.setId(UlidUtils.generateUlidAsUuid());
 
                     // Champs de base
                     String externalId = mtgCard.id() != null ?
@@ -231,7 +232,7 @@ public class MtgAdminController {
 
                     // Traduction
                     MagicCardTranslation translation = new MagicCardTranslation();
-                    translation.setId(UUID.randomUUID());
+                    translation.setId(UlidUtils.generateUlidAsUuid());
                     translation.setLocalization(Localization.USA);
                     translation.setAvailable(true);
 

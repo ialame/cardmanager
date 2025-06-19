@@ -1,6 +1,7 @@
 package com.pcagrad.magic.entity;
 
 import com.pcagrad.magic.util.Localization;
+import com.pcagrad.magic.util.UlidUtils;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -75,7 +76,7 @@ public class Card extends AbstractUuidEntity{
 
 			// *** NOUVELLE SÉCURITÉ: Vérifier que l'ID de la traduction est cohérent ***
 			if (translation.getId() == null) {
-				translation.setId(UUID.randomUUID());
+				translation.setId(UlidUtils.generateUlidAsUuid());
 			}
 		} else {
 			// Supprimer proprement
@@ -90,7 +91,7 @@ public class Card extends AbstractUuidEntity{
 	protected void ensureTranslationExists(Localization localization) {
 		if (getTranslation(localization) == null) {
 			CardTranslation translation = new CardTranslation();
-			translation.setId(UUID.randomUUID());  // ← AJOUTER génération d'UUID
+			translation.setId(UlidUtils.generateUlidAsUuid());  // ← AJOUTER génération d'UUID
 			translation.setLocalization(localization);
 			translation.setAvailable(true);
 			setTranslation(localization, translation);
@@ -108,7 +109,7 @@ public class Card extends AbstractUuidEntity{
 		for (CardTranslation translation : translations.values()) {
 			if (translation != null) {
 				if (translation.getId() == null) {
-					translation.setId(UUID.randomUUID());
+					translation.setId(UlidUtils.generateUlidAsUuid());
 				}
 				// S'assurer de la référence bidirectionnelle
 				translation.setTranslatable(this);

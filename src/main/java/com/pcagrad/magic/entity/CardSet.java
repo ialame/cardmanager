@@ -20,10 +20,6 @@ import java.util.*;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @DiscriminatorValue("mag")
 public class CardSet  extends AbstractUuidEntity{
-	@Id
-	@GeneratedValue
-	@Column(name = "id", updatable = false, nullable = false)
-	private UUID id;
 
 	@OneToMany(mappedBy = "translatable", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@MapKey(name = "localization")

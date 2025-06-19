@@ -6,6 +6,7 @@ import com.pcagrad.magic.model.MtgCard;
 import com.pcagrad.magic.model.MtgSet; // AJOUT: Import manquant
 import com.pcagrad.magic.repository.*;
 import com.pcagrad.magic.util.Localization;
+import com.pcagrad.magic.util.UlidUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,7 +111,7 @@ public class CardPersistenceService {
         MagicCard cardEntity = new MagicCard();
 
         // Générer un UUID unique pour la carte
-        cardEntity.setId(UUID.randomUUID());
+        cardEntity.setId(UlidUtils.generateUlidAsUuid());
 
         // Adapter les données de base directement
         adaptCardDataToEntity(cardEntity, mtgCard, setCode);
@@ -215,7 +216,7 @@ public class CardPersistenceService {
     private void createCardTranslationsSimple(MagicCard cardEntity, MtgCard mtgCard) {
         // Traduction anglaise (USA) - SEULE DISPONIBLE dans votre model
         CardTranslation usaTranslation = new CardTranslation();
-        usaTranslation.setId(UUID.randomUUID());
+        usaTranslation.setId(UlidUtils.generateUlidAsUuid());
         usaTranslation.setName(mtgCard.name());
         usaTranslation.setLabelName(mtgCard.name());
         usaTranslation.setLocalization(Localization.USA);
@@ -485,7 +486,7 @@ public class CardPersistenceService {
             if (savedCard.getTranslations() != null && !savedCard.getTranslations().isEmpty()) {
                 for (CardTranslation translation : savedCard.getTranslations()) {
                     if (translation.getId() == null) {
-                        translation.setId(UUID.randomUUID());
+                        translation.setId(UlidUtils.generateUlidAsUuid());
                     }
                     translation.setTranslatable(savedCard);
                     cardTranslationRepository.save(translation);
