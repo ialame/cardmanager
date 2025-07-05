@@ -1,0 +1,36 @@
+# Configuration Painter pour Docker
+server.port=8081
+
+# Base de donnees
+spring.datasource.url=jdbc:mariadb://database:3306/cardmanager?useUnicode=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&noAccessToProcedureBodies=true
+spring.datasource.username=carduser
+spring.datasource.password=cardpassword
+spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+
+# JPA
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=false
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MariaDBDialect
+
+# Liquibase (desactive pour Painter si pas necessaire)
+spring.liquibase.enabled=false
+
+# Securite
+painter.security.login.enabled=false
+
+# Stockage des images
+painter.image.storage-path=/app/images/storage/
+painter.image.legacy-storage-path=/app/images/legacy/
+
+# Logs
+logging.level.com.pcagrade=INFO
+logging.pattern.console=%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+
+# Actuator
+management.endpoint.health.enabled=true
+management.endpoints.web.exposure.include=health,info
+management.health.db.enabled=true
+
+# Upload
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB

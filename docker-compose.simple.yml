@@ -1,0 +1,110 @@
+# docker-compose.simple.yml
+services:
+  database:
+    image: mariadb:11.4
+    container_name: cardmanager-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: cardmanager
+      MYSQL_USER: carduser
+      MYSQL_PASSWORD: cardpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - cardmanager-network
+
+  retriever:
+    build:
+      context: .  # Contexte à la racine pour accéder aux JARs
+      dockerfile: gestioncarte/Dockerfile.simple
+    container_name: cardmanager-retriever
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mariadb://database:3306/cardmanager?useUnicode=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&noAccessToProcedureBodies=true
+      SPRING_DATASOURCE_USERNAME: carduser
+      SPRING_DATASOURCE_PASSWORD: cardpassword
+      RETRIEVER_SECURITY_LOGIN_ENABLED: false
+      PAINTER_SERVICE_URL: http://painter:8081
+    ports:
+      - "8080:8080"
+    depends_on:
+      database:
+        condition: service_healthy
+      painter:
+        condition: service_healthy
+    volumes:
+      - retriever_uploads:/app/uploads
+      - retriever_logs:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
+    networks:
+      - cardmanager-network
+
+  painter:
+    build:
+      context: .  # Contexte à la racine pour accéder aux JARs
+      dockerfile: painter/Dockerfile.simple
+    container_name: cardmanager-painter
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mariadb://database:3306/cardmanager?useUnicode=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&noAccessToProcedureBodies=true
+      SPRING_DATASOURCE_USERNAME: carduser
+      SPRING_DATASOURCE_PASSWORD: cardpassword
+      PAINTER_SECURITY_LOGIN_ENABLED: false
+      PAINTER_IMAGE_STORAGE_PATH: /app/images/storage/
+    ports:
+      - "8081:8081"
+    depends_on:
+      database:
+        condition: service_healthy
+    volumes:
+      - painter_images:/app/images/storage
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - cardmanager-network
+
+  adminer:
+    image: adminer:4.8.1
+    container_name: cardmanager-adminer
+    ports:
+      - "8082:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: database
+      ADMINER_DESIGN: pepa-linha
+    depends_on:
+      - database
+    networks:
+      - cardmanager-network
+
+volumes:
+  db_data:
+    driver: local
+  retriever_uploads:
+    driver: local
+  retriever_logs:
+    driver: local
+  painter_images:
+    driver: local
+
+networks:
+  cardmanager-network:
+    driver: bridge
