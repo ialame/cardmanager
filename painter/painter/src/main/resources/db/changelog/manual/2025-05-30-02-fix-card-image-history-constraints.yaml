@@ -1,0 +1,85 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-05-30-fix-card-image-history-constraints
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        # Supprimer FK_CARD_IMAGE_HISTORY_ON_REVISION seulement si elle existe
+        - dropForeignKeyConstraint:
+            baseTableName: card_image_history
+            baseTableSchemaName: history
+            constraintName: FK_CARD_IMAGE_HISTORY_ON_REVISION
+        - dropForeignKeyConstraint:
+            baseTableName: card_image_history
+            baseTableSchemaName: history
+            constraintName: FK_CARD_IMAGE_HISTORY_REV
+
+        # Supprimer la clé primaire seulement si elle existe sur revision_id
+        - sql:
+            sql: |
+              SET @constraint_exists = (
+                SELECT COUNT(*) 
+                FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+                WHERE TABLE_SCHEMA = 'history' 
+                AND TABLE_NAME = 'card_image_history' 
+                AND COLUMN_NAME = 'revision_id' 
+                AND CONSTRAINT_NAME = 'PRIMARY'
+              );
+              SET @sql = IF(@constraint_exists > 0, 'ALTER TABLE history.card_image_history DROP PRIMARY KEY', 'SELECT 1');
+              PREPARE stmt FROM @sql;
+              EXECUTE stmt;
+              DEALLOCATE PREPARE stmt;
+
+        # Supprimer les colonnes seulement si elles existent
+        - sql:
+            sql: |
+              SET @column_exists = (
+                SELECT COUNT(*) 
+                FROM INFORMATION_SCHEMA.COLUMNS 
+                WHERE TABLE_SCHEMA = 'history' 
+                AND TABLE_NAME = 'card_image_history' 
+                AND COLUMN_NAME = 'revision_id'
+              );
+              SET @sql = IF(@column_exists > 0, 'ALTER TABLE history.card_image_history DROP COLUMN revision_id', 'SELECT 1');
+              PREPARE stmt FROM @sql;
+              EXECUTE stmt;
+              DEALLOCATE PREPARE stmt;
+
+        - sql:
+            sql: |
+              SET @column_exists = (
+                SELECT COUNT(*) 
+                FROM INFORMATION_SCHEMA.COLUMNS 
+                WHERE TABLE_SCHEMA = 'history' 
+                AND TABLE_NAME = 'card_image_history' 
+                AND COLUMN_NAME = 'revision_type'
+              );
+              SET @sql = IF(@column_exists > 0, 'ALTER TABLE history.card_image_history DROP COLUMN revision_type', 'SELECT 1');
+              PREPARE stmt FROM @sql;
+              EXECUTE stmt;
+              DEALLOCATE PREPARE stmt;
+
+        # Recréer la clé primaire (seulement si elle n'existe pas déjà sur rev,id)
+        - sql:
+            sql: |
+              SET @pk_exists = (
+                SELECT COUNT(*) 
+                FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+                WHERE TABLE_SCHEMA = 'history' 
+                AND TABLE_NAME = 'card_image_history' 
+                AND COLUMN_NAME IN ('rev', 'id') 
+                AND CONSTRAINT_NAME = 'PRIMARY'
+              );
+              SET @sql = IF(@pk_exists = 0, 'ALTER TABLE history.card_image_history ADD PRIMARY KEY (rev, id)', 'SELECT 1');
+              PREPARE stmt FROM @sql;
+              EXECUTE stmt;
+              DEALLOCATE PREPARE stmt;
+
+        # Recréer la contrainte FK
+        - addForeignKeyConstraint:
+            baseTableName: card_image_history
+            baseTableSchemaName: history
+            baseColumnNames: rev
+            constraintName: FK_CARD_IMAGE_HISTORY_REV
+            referencedTableName: revision_info
+            referencedColumnNames: id

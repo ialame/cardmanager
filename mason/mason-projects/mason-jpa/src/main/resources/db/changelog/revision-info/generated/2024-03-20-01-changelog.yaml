@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1710944698265-1
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_revision_info
+                  name: id
+                  type: INT
+              - column:
+                  name: modification_date
+                  type: DATETIME
+              - column:
+                  name: author
+                  type: VARCHAR(255)
+              - column:
+                  name: message
+                  type: TEXT
+            tableName: revision_info

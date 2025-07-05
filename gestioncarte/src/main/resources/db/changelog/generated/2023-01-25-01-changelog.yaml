@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1674644733431-410
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: pid, localization
+            constraintName: uc_5677da26df61dfacdaef7f99e
+            tableName: j_yugioh_official_site_pid
+  - changeSet:
+      id: 1674644733431-160
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addAutoIncrement:
+            columnDataType: int
+            columnName: id
+            tableName: j_yugioh_official_site_pid

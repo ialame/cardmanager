@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1708075569829-315
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_j_mushu_set
+                  name: id
+                  type: INT
+              - column:
+                  name: url
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: set_id
+                  type: BINARY(16)
+                  remarks: (DC2Type:ulid)
+            tableName: j_mushu_set
+  - changeSet:
+      id: 1708075569829-363
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: set_id
+            baseTableName: j_mushu_set
+            constraintName: FK_J_MUSHU_SET_ON_SET
+            referencedColumnNames: id
+            referencedTableName: lorcana_set

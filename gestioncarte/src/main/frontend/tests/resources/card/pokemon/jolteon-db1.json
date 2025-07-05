@@ -1,0 +1,47 @@
+{
+  "id": "01G4GC2TEZBYQZ3TJYKX82SJ3Y",
+  "link": null,
+  "type": null,
+  "brackets": [],
+  "featureIds": [],
+  "translations": {
+    "fr": {
+      "localization": "fr",
+      "name": "Voltali",
+      "labelName": "Voltali",
+      "number": "SWSH094",
+      "originalName": "",
+      "rarity": "",
+      "trainer": "",
+      "available": false
+    },
+    "us": {
+      "localization": "us",
+      "name": "Voltali",
+      "labelName": "Voltali",
+      "number": "SWSH094",
+      "originalName": "",
+      "rarity": "",
+      "trainer": "",
+      "available": false
+    }
+  },
+  "setIds": [
+    "01G54QH1VJJGX54Y2WAJM44TM6"
+  ],
+  "promos": [
+    {
+      "id": "01G76VH7TRT7NX82TT425CME92",
+      "name": "Battle Styles Three Pack Blisters",
+      "localization": "us"
+    }
+  ],
+  "distribution": false,
+  "alternate": false,
+  "idPrim": "990511009400",
+  "fullArt": false,
+  "extractionStatus": {
+    "ignoredLocalizations": null
+  },
+  "artist": null
+}

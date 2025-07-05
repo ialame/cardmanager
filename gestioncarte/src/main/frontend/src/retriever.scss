@@ -1,0 +1,213 @@
+@import "variables";
+@import "mixins";
+@import "bootstrap/scss/bootstrap";
+@import "bootswatch/dist/journal/bootswatch";
+
+.btn { border-radius: $pca-border-radius; }
+
+.card, .light-bg { background-color: $light-bg; }
+
+#alert-container { z-index: 1; }
+
+@include icon-size(12, 14, 16, 24, 32);
+
+.line-red { background-color: $line-red !important; }
+.line-yellow { background-color: $line-yellow !important; }
+.line-blue { background-color: $line-blue !important; }
+.line-green { background-color: $line-green !important; }
+
+.no-focus:focus {
+  	outline: none !important;
+  	box-shadow: none !important;
+  	-webkit-box-shadow: none !important;
+	border-color: transparent !important;
+}
+
+.btn.no-focus {
+	border-color: transparent !important;
+}
+
+.form-check-input { cursor: pointer; }
+
+div.test-env {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: $primary;
+	color: white;
+	font-size: 1.5em;
+	text-align: center;
+	z-index: 99999;
+	padding: 0.5rem;
+	border-bottom-right-radius: 0.85rem;
+}
+
+.min-w-50 { min-width: 50px; }
+.min-w-100 { min-width: 100px; }
+.min-w-150 { min-width: 150px; }
+.min-w-200 { min-width: 200px; }
+
+.icon-btn {
+	padding: 0 !important;
+	background-color: transparent;
+	border: none transparent;
+}
+.icon-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+.icon-btn:hover { color: white; }
+.icon-btn-red:hover { color: #e74742; }
+.icon-btn-blue:hover { color: blue; }
+
+.ion-color-success {
+	color: $success !important;
+	--ion-color-base: var(--ion-color-success, #{$success});
+}
+.ion-color-danger {
+	color: $danger !important;
+	--ion-color-base: var(--ion-color-danger, #{$danger});
+}
+.ion-color-warning {
+	color: $warning !important;
+	--ion-color-base: var(--ion-color-warning, #{$warning});
+}
+.ion-color-primary {
+	color: $primary !important;
+	--ion-color-base: var(--ion-color-primary, #{$primary});
+}
+.ion-color-secondary {
+	color: $secondary !important;
+	--ion-color-base: var(--ion-color-secondary, #{$secondary});
+}
+
+.no-after:after { display: none; }
+.no-before:before { display: none; }
+
+.full-screen-container {
+	@extend .container-fluid;
+	width: 100%;
+}
+
+.round-btn { @include round-btn(4rem); }
+
+.round-btn-sm {
+	@include round-btn(2rem);
+	@extend .p-0;
+}
+
+.z-top { z-index: 1000; }
+.z-top.dropdown-menu { z-index: 1001; }
+
+.vl { border-right: 1px solid rgba(0, 0, 0, 0.25); }
+
+.c-pointer { cursor: pointer; }
+
+.hover-input { font-size: inherit;	}
+.hover-input:not(:hover) {
+	border-color: transparent;
+	background-color: transparent;
+}
+
+input[type=date] {
+	padding-left: calc(1rem + 24px);
+	&::-webkit-calendar-picker-indicator {
+		position: relative;
+		right: calc(100% + 12px);
+	}
+}
+input[type=number].no-arrows::-webkit-inner-spin-button,
+input[type=number].no-arrows::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+input[type=number].no-arrows {
+	-moz-appearance: textfield;
+}
+
+table.table:not(.light-bg) {
+	background-color: #fff;
+}
+
+.btn-link {
+	color: black;
+}
+
+.modal-xxl {
+	@extend .modal-xl;
+    max-width: 95%;
+}
+
+progress {
+	border-radius: 0.85rem;
+}
+
+::-webkit-progress-bar {
+	background-color: $gray-500;
+	border-radius: 0.85rem;
+}
+
+::-webkit-progress-value {
+	background-color: $primary;
+	border-radius: 0.85rem;
+}
+
+::-webkit-progress-inner-element {
+	border-radius: 0.85rem;
+}
+
+ion-icon.invalid-shadow { @extend .rounded-circle; }
+.invalid-shadow { @include highlight($danger); }
+ion-icon.invalid-shadow:not(.flag):not(.is-invalid) { background-color: $danger; }
+
+.new-highlight { @include highlight($green); }
+.diff-highlight { @include highlight($yellow); }
+.merge-highlight { @include highlight($info); }
+
+.h-flip { transform: scaleX(-1); }
+.v-flip { transform: scaleY(-1); }
+
+.btn-bulbapedia { @include button-variant($bulbapedia-green, $bulbapedia-green); }
+
+.scroller {
+	@include scroller($secondary, $light-bg);
+}
+
+.r-tooltip {
+	position: absolute;
+	z-index: 1080;
+	display: block;
+	margin: 0;
+	font-family: var(--bs-font-sans-serif);
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1.5;
+	text-align: start;
+	text-decoration: none;
+	text-shadow: none;
+	text-transform: none;
+	letter-spacing: normal;
+	word-break: normal;
+	word-spacing: normal;
+	white-space: normal;
+	line-break: auto;
+	font-size: 0.875rem;
+	word-wrap: break-word;
+}
+.r-tooltip-inner {
+	max-width: 500px;
+	min-width: 200px;
+	padding: 0.25rem 0.5rem;
+	color: #fff;
+	text-align: center;
+	background-color: #000;
+	border-radius: 0.25rem;
+}
+.table {
+	td {
+		padding-bottom: 0.1rem;
+	}
+	tr:hover {
+		background-color: rgba(0, 0, 0, 0.1) !important;
+	}
+}

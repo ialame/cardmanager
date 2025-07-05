@@ -1,0 +1,62 @@
+{
+    "id": "01GNF8R70XB5KA5Y2JF1HMVN3M",
+    "link": null,
+    "type": "Lightning",
+    "type2": null,
+    "parentId": null,
+    "translations": {
+        "fr": {
+            "localization": "fr",
+            "name": "Pikachu",
+            "labelName": "Pikachu",
+            "number": "027",
+            "originalName": "",
+            "rarity": "Promo",
+            "trainer": "",
+            "available": true
+        },
+        "jp": {
+            "localization": "jp",
+            "name": "Pikachu",
+            "labelName": "Pikachu",
+            "number": "001/SV-P",
+            "originalName": "ピカチュウ",
+            "rarity": "Promo",
+            "trainer": "",
+            "available": true
+        },
+        "us": {
+            "localization": "us",
+            "name": "Pikachu",
+            "labelName": "Pikachu",
+            "number": "027",
+            "originalName": "",
+            "rarity": "Promo",
+            "trainer": "",
+            "available": true
+        }
+    },
+    "tags": [],
+    "distribution": false,
+    "alternate": false,
+    "idPrim": "0002700",
+    "fullArt": false,
+    "extractionStatus": {
+        "ignoredLocalizations": []
+    },
+    "artist": null,
+    "level": 0,
+    "brackets": [],
+    "setIds": [],
+    "promos": [
+        {
+            "id": "01GY4WRP7AZNE7PZ3YYVD36NRR",
+            "name": "Paldea Evolved Elite Trainer Box",
+            "localization": "us",
+            "versionId": null,
+            "eventId": null,
+            "used": true
+        }
+    ],
+    "featureIds": []
+}

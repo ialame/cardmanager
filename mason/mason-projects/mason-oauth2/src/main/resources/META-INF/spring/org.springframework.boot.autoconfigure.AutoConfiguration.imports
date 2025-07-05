@@ -1,0 +1,3 @@
+com.pcagrade.mason.oauth2.MasonOAuth2ClientAutoConfiguration
+com.pcagrade.mason.oauth2.MasonOAuth2ResourceServerAutoConfiguration
+com.pcagrade.mason.oauth2.MasonOAuth2DisabledAutoConfiguration

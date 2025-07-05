@@ -1,0 +1,38 @@
+version: '3'
+services:
+  db:
+    image: registry.pcagrade.com/pcagrade/db-dump:latest
+    expose:
+      - "3306"
+    ports:
+      - "3307:3306"
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: true
+      MARIADB_MYSQL_LOCALHOST_USER: true
+      MARIADB_MYSQL_LOCALHOST_GRANTS: USAGE
+    healthcheck:
+      test: [ "CMD", "/usr/local/bin/healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized" ]
+      start_interval: 30s
+      start_period: 10m
+      interval: 30s
+      timeout: 5s
+      retries: 3
+  frontend:
+    image: node:18-alpine
+    ports:
+      - "3000:3000"
+    command: /bin/sh -c "npm i && npm run dev"
+    working_dir: /app
+    volumes:
+      - ./src/main/frontend/:/app
+    tty: true
+  retriever:
+    image: registry.pcagrade.com/pcagrade/retriever:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy

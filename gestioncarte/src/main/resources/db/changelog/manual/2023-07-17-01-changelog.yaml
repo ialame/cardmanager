@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2023-07-17-01-001
+      author: GCA
+      changes:
+        - createProcedure:
+            procedureName: j_refresh_translation_dictionary
+            replaceIfExists: true
+            procedureText: |-
+              CREATE OR REPLACE PROCEDURE `j_refresh_translation_dictionary` () BEGIN
+                  create table if not exists j_translation_dictionary (
+                      `id` int(11) NOT NULL AUTO_INCREMENT,
+                      `count` int(11) NOT NULL,
+                      `from_value` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+                      `from_locale` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+                      `to_value` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+                      `to_locale` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+                      PRIMARY KEY (`id`)
+                  ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+                  
+                  truncate j_translation_dictionary;
+                  insert into j_translation_dictionary (count, from_value, from_locale, to_value, to_locale)
+                      select count(*) as count, f.name as from_value, f.locale as from_locale, t.name as to_value, t.locale as to_locale
+                          from card_translation f
+                          join card_translation t on f.locale != t.locale and f.translatable_id = t.translatable_id and f.id != t.id
+                          where f.discriminator = 'pok' and t.discriminator = 'pok' and f.name != '' and t.name != ''
+                          group by f.locale, t.locale, f.name, t.name
+                          order by f.locale, t.locale, f.name, t.name, count(*) desc;
+                  insert into j_translation_dictionary (count, from_value, from_locale, to_value, to_locale)
+                      select count(*) as count, f.label_name as from_value, f.locale as from_locale, t.label_name as to_value, t.locale as to_locale
+                          from card_translation f
+                          join card_translation t on f.locale != t.locale and f.translatable_id = t.translatable_id and f.id != t.id
+                          where f.discriminator = 'pok' and t.discriminator = 'pok' and f.label_name != '' and t.label_name != ''
+                          group by f.locale, t.locale, f.label_name, t.label_name
+                          order by f.locale, t.locale, f.label_name, t.label_name, count(*) desc;
+              END

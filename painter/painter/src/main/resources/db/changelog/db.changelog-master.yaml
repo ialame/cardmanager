@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/revision-info.yaml
+  - includeAll:
+      path: db/changelog/generated/
+  - includeAll:
+      path: db/changelog/manual/

@@ -1,0 +1,80 @@
+{
+  "id": "01G4GC2SC1S1PHH0H7FHT5A33Q",
+  "link": null,
+  "type": "Colorless",
+  "brackets": [],
+  "parentId": null,
+  "featureIds": [
+    "01G4GFKS1X47GNF95CT50H17JS"
+  ],
+  "translations": {
+    "us": {
+      "localization": "us",
+      "name": "Snorlax GX",
+      "labelName": "Snorlax GX",
+      "number": "SM05",
+      "originalName": "",
+      "rarity": "Promo",
+      "trainer": "",
+      "available": true
+    },
+    "de": {
+      "localization": "de",
+      "name": "Relaxo GX",
+      "labelName": "Relaxo GX",
+      "number": "SM05",
+      "originalName": "",
+      "rarity": "Promo",
+      "trainer": "",
+      "available": true
+    },
+    "fr": {
+      "localization": "fr",
+      "name": "Ronflex GX",
+      "labelName": "Ronflex GX",
+      "number": "SM05",
+      "originalName": "",
+      "rarity": "Promo",
+      "trainer": "",
+      "available": true
+    },
+    "it": {
+      "localization": "it",
+      "name": "Snorlax GX",
+      "labelName": "Snorlax GX",
+      "number": "SM05",
+      "originalName": "",
+      "rarity": "Promo",
+      "trainer": "",
+      "available": true
+    },
+    "es": {
+      "localization": "es",
+      "name": "Snorlax GX",
+      "labelName": "Snorlax GX",
+      "number": "SM05",
+      "originalName": "",
+      "rarity": "Promo",
+      "trainer": "",
+      "available": true
+    }
+  },
+  "setIds": [
+    "01G4GEQXEX2X6291YJRM1RQVK3"
+  ],
+  "promos": [
+    {
+      "id": "01G4GFKSBCN4V3REJEQSK4GHJ0",
+      "name": "Snorlax-GX Box",
+      "localization": "us"
+    }
+  ],
+  "distribution": false,
+  "alternate": false,
+  "idPrim": "990510000500",
+  "fullArt": false,
+  "extractionStatus": {
+    "ignoredLocalizations": null
+  },
+  "artist": null
+}

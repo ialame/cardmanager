@@ -1,0 +1,31 @@
+{
+  "id": null,
+  "link": "https://bulbapedia.bulbagarden.net/wiki/Blaine%27s_Magmar_%28Gym_Heroes_37%29",
+  "type": "Fire",
+  "brackets": [],
+  "parentId": null,
+  "featureIds": [],
+  "translations": {
+    "jp": {
+      "localization": "jp",
+      "name": "Blaine's Magmar",
+      "labelName": "Blaine's Magmar",
+      "number": "—",
+      "originalName": "カツラのブーバー",
+      "rarity": null,
+      "trainer": "",
+      "available": true
+    }
+  },
+  "setIds": [
+    "01G4GEQXF2TFZBCM0ABAE4F4TH"
+  ],
+  "promos": [],
+  "distribution": false,
+  "alternate": false,
+  "idPrim": null,
+  "fullArt": false,
+  "extractionStatus": null,
+  "artist": null,
+  "level": 29
+}

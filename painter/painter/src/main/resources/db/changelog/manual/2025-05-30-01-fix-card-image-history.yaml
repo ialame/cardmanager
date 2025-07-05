@@ -1,0 +1,60 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1711618105444-1-fix
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropTable:
+            tableName: card_image_history
+        - createTable:
+            tableName: card_image_history
+            schemaName: history
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_card_image_history
+                  name: revision_id
+                  type: INT
+              - column:
+                  name: revision_type
+                  type: SMALLINT
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_card_image_history
+                  name: id
+                  type: BINARY(16)
+              - column:
+                  name: card_id
+                  type: BINARY(16)
+              - column:
+                  name: localization
+                  type: VARCHAR(5)
+              - column:
+                  name: image_id
+                  type: BINARY(16)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: rev
+                  type: INT
+              - column:
+                  name: revtype
+                  type: TINYINT
+        - addForeignKeyConstraint:
+            baseColumnNames: rev
+            baseTableName: card_image_history
+            baseTableSchemaName: history
+            constraintName: FK_CARD_IMAGE_HISTORY_REV
+            referencedColumnNames: id
+            referencedTableName: revision_info
+        - addForeignKeyConstraint:
+            baseColumnNames: revision_id
+            baseTableName: card_image_history
+            baseTableSchemaName: history
+            constraintName: FK_CARD_IMAGE_HISTORY_ON_REVISION
+            referencedColumnNames: id
+            referencedTableName: revision_info

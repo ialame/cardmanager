@@ -1,0 +1,92 @@
+{
+  "id": null,
+  "link": "https://bulbapedia.bulbagarden.net/wiki/Drampa_%28SM-P_Promo_16%29",
+  "type": "Dragon",
+  "brackets": [],
+  "parentId": null,
+  "featureIds": [],
+  "translations": {
+    "us": {
+      "localization": "us",
+      "name": "Drampa",
+      "labelName": "Drampa",
+      "number": "SM21",
+      "originalName": "",
+      "rarity": "Promo",
+      "trainer": "",
+      "available": true
+    },
+    "jp": {
+      "localization": "jp",
+      "name": "Drampa",
+      "labelName": "Drampa",
+      "number": "016/SM-P",
+      "originalName": "ジジーロン",
+      "rarity": "Promo",
+      "trainer": "",
+      "available": true
+    },
+    "fr": {
+      "localization": "fr",
+      "name": "Draïeul",
+      "labelName": "Draïeul",
+      "number": "SM21",
+      "originalName": "",
+      "rarity": "Promo",
+      "trainer": "",
+      "available": true
+    },
+    "it": {
+      "localization": "it",
+      "name": "Drampa",
+      "labelName": "Drampa",
+      "number": "SM21",
+      "originalName": "",
+      "rarity": "Promo",
+      "trainer": "",
+      "available": true
+    },
+    "de": {
+      "localization": "de",
+      "name": "Sen-Long",
+      "labelName": "Sen-Long",
+      "number": "SM21",
+      "originalName": "",
+      "rarity": "Promo",
+      "trainer": "",
+      "available": true
+    },
+    "es": {
+      "localization": "es",
+      "name": "Drampa",
+      "labelName": "Drampa",
+      "number": "SM21",
+      "originalName": "",
+      "rarity": "Promo",
+      "trainer": "",
+      "available": true
+    }
+  },
+  "setIds": [
+    "01G4GEQXF5M45M0SMKW3ADVDWS",
+    "01G4GEQXEX2X6291YJRM1RQVK3"
+  ],
+  "promos": [
+    {
+      "id": null,
+      "name": "''CoroCoro Ichiban!'' June 2017 issue insert (April 21, 2017)",
+      "localization": "jp"
+    },
+    {
+      "id": null,
+      "name": "Guardians Rising Prerelease participation promo",
+      "localization": "us"
+    }
+  ],
+  "distribution": false,
+  "alternate": false,
+  "idPrim": null,
+  "fullArt": false,
+  "extractionStatus": null,
+  "artist": null
+}

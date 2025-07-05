@@ -1,0 +1,32 @@
+painter:
+  image:
+    storage-path: target/test-images/
+    legacy-storage-path: target/legacy-test-images/
+  public-url: http://localhost:8080/images
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:db;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;INIT=CREATE SCHEMA IF NOT EXISTS history
+    username: sa
+  jpa:
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: create-drop
+        ddl-auto: create-drop
+      org.hibernate.envers:
+        default_schema: ""
+  liquibase.enabled: false
+  sql.init:
+    data-locations:
+      - classpath:data/*.sql
+    schema-locations:
+      - classpath:ulid/ulid-aliases.sql
+      - classpath:schema.sql
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://auth-server:9000

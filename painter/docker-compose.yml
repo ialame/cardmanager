@@ -1,0 +1,24 @@
+services:
+  painter:
+    build:
+      context: .
+      dockerfile: painter/Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://adloun.org:5432/imagesbdd
+      - SPRING_DATASOURCE_USERNAME=ia
+      - SPRING_DATASOURCE_PASSWORD=foufafou
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+    volumes:
+      - image-data:/app/images
+    networks:
+      - app-network
+
+volumes:
+  image-data:
+
+networks:
+  app-network:
+    driver: bridge

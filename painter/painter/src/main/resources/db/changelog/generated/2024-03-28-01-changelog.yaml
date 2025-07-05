@@ -1,0 +1,251 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1711618105372-1
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_card_image
+                  name: id
+                  type: BINARY(16)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: card_id
+                  type: BINARY(16)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: localization
+                  type: VARCHAR(5)
+              - column:
+                  name: image_id
+                  type: BINARY(16)
+            tableName: card_image
+  - changeSet:
+      id: 1711618105372-2
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_image
+                  name: id
+                  type: BINARY(16)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: path
+                  type: VARCHAR(255)
+              - column:
+                  name: source
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: internal
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  name: creation_date
+                  type: DATETIME
+            tableName: image
+  - changeSet:
+      id: 1711618105372-4
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_set_image
+                  name: id
+                  type: BINARY(16)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: set_id
+                  type: BINARY(16)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: localization
+                  type: VARCHAR(5)
+              - column:
+                  name: image_id
+                  type: BINARY(16)
+            tableName: set_image
+  - changeSet:
+      id: 1711618105372-5
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: card_id, localization
+            constraintName: card_image_card_id_localization_uq
+            tableName: card_image
+  - changeSet:
+      id: 1711618105372-6
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: set_id, localization
+            constraintName: set_image_set_id_localization_uq
+            tableName: set_image
+  - changeSet:
+      id: 1711618105372-7
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: card_id
+            indexName: card_image_card_id_idx
+            tableName: card_image
+  - changeSet:
+      id: 1711618105372-8
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: set_id
+            indexName: set_image_set_id_idx
+            tableName: set_image
+  - changeSet:
+      id: 1711618105372-9
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: image_id
+            baseTableName: card_image
+            constraintName: FK_CARD_IMAGE_ON_IMAGE
+            referencedColumnNames: id
+            referencedTableName: image
+  - changeSet:
+      id: 1711618105372-10
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: image_id
+            baseTableName: set_image
+            constraintName: FK_SET_IMAGE_ON_IMAGE
+            referencedColumnNames: id
+            referencedTableName: image
+  - changeSet:
+      id: 1711618105444-1
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            tableName: card_image_history
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_card_image_history
+                  name: revision_id
+                  type: INT
+              - column:
+                  name: revision_type
+                  type: SMALLINT
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_card_image_history
+                  name: id
+                  type: BINARY(16)
+              - column:
+                  name: card_id
+                  type: BINARY(16)
+              - column:
+                  name: localization
+                  type: VARCHAR(5)
+              - column:
+                  name: image_id
+                  type: BINARY(16)
+            preConditions:
+              - onFail: MARK_RAN
+                not:
+                  tableExists:
+                    tableName: card_image_history
+  - changeSet:
+      id: 1711618105444-2
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_set_image_history
+                  name: revision_id
+                  type: INT
+              - column:
+                  name: revision_type
+                  type: SMALLINT
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_set_image_history
+                  name: id
+                  type: BINARY(16)
+              - column:
+                  name: set_id
+                  type: BINARY(16)
+              - column:
+                  name: localization
+                  type: VARCHAR(5)
+              - column:
+                  name: image_id
+                  type: BINARY(16)
+            schemaName: history
+            tableName: set_image_history
+  - changeSet:
+      id: 1711618105444-3
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: revision_id
+            baseTableName: card_image_history
+            baseTableSchemaName: history
+            constraintName: FK_CARD_IMAGE_HISTORY_ON_REVISION
+            referencedColumnNames: id
+            referencedTableName: revision_info
+  - changeSet:
+      id: 1711618105444-4
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: revision_id
+            baseTableName: set_image_history
+            baseTableSchemaName: history
+            constraintName: FK_SET_IMAGE_HISTORY_ON_REVISION
+            referencedColumnNames: id
+            referencedTableName: revision_info

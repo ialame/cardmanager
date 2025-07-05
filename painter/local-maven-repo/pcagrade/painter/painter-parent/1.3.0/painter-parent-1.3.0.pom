@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.pcagrade</groupId>
+		<artifactId>cardmanager</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<groupId>com.pcagrade.painter</groupId>
+	<artifactId>painter-parent</artifactId>
+	<version>1.3.0</version>
+	<packaging>pom</packaging>
+
+	<name>Painter Parent</name>
+<!--	<description>Parent POM for Painter modules</description>-->
+    <description>Application for managing images</description>
+
+	<properties>
+		<!-- sonar -->
+		<sonar.projectKey>pcafxc_painter_ff4540dd-ab7a-4873-8aec-b8d913b54f5f</sonar.projectKey>
+		<sonar.projectName>painter</sonar.projectName>
+	</properties>
+
+	<modules>
+		<module>painter-common</module>
+		<module>painter-client</module>
+		<module>painter</module>
+	</modules>
+
+	<repositories>
+<!--		<repository>-->
+<!--			<id>pca-private</id>-->
+<!--			<url>https://maven.pcagrade.com/private/</url>-->
+<!--		</repository>-->
+<!--		<repository>-->
+<!--			<id>pca-releases</id>-->
+<!--			<url>https://maven.pcagrade.com/releases/</url>-->
+<!--		</repository>-->
+	</repositories>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.pcagrade.painter</groupId>
+				<artifactId>painter</artifactId>
+				<version>1.3.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.pcagrade.painter</groupId>
+				<artifactId>painter-common</artifactId>
+				<version>1.3.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.pcagrade.painter</groupId>
+				<artifactId>painter-client</artifactId>
+				<version>1.3.0</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+</project>

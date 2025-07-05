@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1680899147959-450
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: localization
+                  type: VARCHAR(255)
+            tableName: j_one_piece_official_site_id

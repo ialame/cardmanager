@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1680596259711-438
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_j_one_piece_official_site_id
+                  name: id
+                  type: INT
+              - column:
+                  name: official_site_id
+                  type: INT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: set_id
+                  type: BINARY(16)
+                  remarks: (DC2Type:ulid)
+            tableName: j_one_piece_official_site_id
+  - changeSet:
+      id: 1680596259711-444
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: set_id
+            baseTableName: j_one_piece_official_site_id
+            constraintName: FK_J_ONE_PIECE_OFFICIAL_SITE_ID_ON_SET
+            referencedColumnNames: id
+            referencedTableName: one_piece_set

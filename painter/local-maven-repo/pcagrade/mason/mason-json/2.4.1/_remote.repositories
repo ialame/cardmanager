@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Tue May 06 19:59:20 CEST 2025
+mason-json-2.4.1.jar>=
+mason-json-2.4.1.pom>=
