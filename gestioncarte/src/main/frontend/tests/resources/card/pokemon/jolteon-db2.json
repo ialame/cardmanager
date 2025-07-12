@@ -1,0 +1,49 @@
+{
+  "id": "01G4GC2TFA99F9CJ936SXYVDEW",
+  "link": null,
+  "type": "Lightning",
+  "brackets": [],
+  "parentId": null,
+  "featureIds": [],
+  "translations": {
+    "jp": {
+      "localization": "jp",
+      "name": "Jolteon",
+      "labelName": "Jolteon",
+      "number": "114/S-P",
+      "originalName": "サンダース",
+      "rarity": "",
+      "trainer": "",
+      "available": true
+    },
+    "us": {
+      "localization": "us",
+      "name": "Jolteon",
+      "labelName": "Jolteon",
+      "number": "SWSH094",
+      "originalName": "",
+      "rarity": "Promo",
+      "trainer": "",
+      "available": true
+    }
+  },
+  "setIds": [
+    "01G4GEQXF5M45M0SMKW3ADVDXT",
+    "01G54QH1VJJGX54Y2WAJM44TM6"
+  ],
+  "promos": [
+    {
+      "id": "01G4GFKSBTQ7ZKPE231GDSQM5B",
+      "name": "Battle Styles Three Pack Blisters",
+      "localization": "us"
+    }
+  ],
+  "distribution": false,
+  "alternate": false,
+  "idPrim": "990511109400",
+  "fullArt": false,
+  "extractionStatus": {
+    "ignoredLocalizations": null
+  },
+  "artist": null
+}

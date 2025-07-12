@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1680875793529-170
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addAutoIncrement:
+            columnDataType: int
+            columnName: id
+            tableName: j_one_piece_official_site_id

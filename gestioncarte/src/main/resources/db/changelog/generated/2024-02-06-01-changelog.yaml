@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1707213519517-349
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: target_id
+            constraintName: uc_7d078e09b5f62f17d87f73c50
+            tableName: j_set_extraction_status
+  - changeSet:
+      id: 1707213519517-350
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: target_id
+            constraintName: uc_c4e79df5cb1fe0721ad830928
+            tableName: j_card_extraction_status

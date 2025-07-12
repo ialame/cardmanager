@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow" />
+    <meta th:if="${_csrf != null}" name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:if="${_csrf != null}" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="icon" href="/favicon.ico">
+    <title>Professional Card Retriever</title>
+    <link th:each="style : ${appStyles}" rel="stylesheet" th:href="${style}" />
+    <script th:each="script : ${appScripts}" type="module" th:src="${script}"></script>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but this ap doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="vue-app"></div>
+  </body>
+</html>

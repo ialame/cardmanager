@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1673877489578-378
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_j_yugioh_official_site_pid
+                  name: id
+                  type: INT
+              - column:
+                  name: pid
+                  type: VARCHAR(255)
+              - column:
+                  name: localization
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: set_id
+                  type: BINARY(16)
+                  remarks: (DC2Type:ulid)
+            tableName: j_yugioh_official_site_pid
+  - changeSet:
+      id: 1673877489578-399
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: set_id
+            baseTableName: j_yugioh_official_site_pid
+            constraintName: FK_J_YUGIOH_OFFICIAL_SITE_PID_ON_SET
+            referencedColumnNames: id
+            referencedTableName: yugioh_set

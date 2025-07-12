@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CardManager - Visionneuse d'Images</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        h1 {
+            color: #4a5568;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .controls {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        input, select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #5a67d8;
+        }
+        
+        .stats {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .image-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .image-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .image-info {
+            padding: 1rem;
+        }
+        
+        .image-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+        
+        .image-path {
+            font-size: 0.8rem;
+            color: #718096;
+            word-break: break-all;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .error {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+        }
+        
+        .modal-content {
+            margin: 5% auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            max-height: 80%;
+            object-fit: contain;
+        }
+        
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #bbb;
+        }
+        
+        .success {
+            background: #c6f6d5;
+            color: #22543d;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🃏 CardManager - Visionneuse d'Images</h1>
+    </header>
+    
+    <div class="container">
+        <div class="controls">
+            <input type="text" id="searchInput" placeholder="Rechercher une image..." />
+            <select id="sortSelect">
+                <option value="name">Trier par nom</option>
+                <option value="folder">Trier par dossier</option>
+            </select>
+            <button onclick="refreshImages()">🔄 Actualiser</button>
+            <button onclick="downloadImage()">⬇️ Télécharger sélection</button>
+            <button onclick="openPokemonFolder()">📁 Ouvrir dossier Pokemon</button>
+        </div>
+        
+        <div class="stats" id="stats">
+            <strong>Chargement des statistiques...</strong>
+        </div>
+        
+        <div id="loading" class="loading">
+            🔄 Chargement des images...
+        </div>
+        
+        <div id="error" class="error" style="display: none;"></div>
+        <div id="success" class="success" style="display: none;"></div>
+        
+        <div id="imageGrid" class="image-grid"></div>
+    </div>
+    
+    <!-- Modal pour agrandir les images -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+    
+    <script>
+        let allImages = [];
+        let selectedImage = null;
+        
+        // Configuration des dossiers connus
+        const KNOWN_FOLDERS = ['4f5', '878', '9c4', '9c0', 'e08', '229', 'dff', '191', 'd4e', '1a2', '3bc', '7ef'];
+        
+        async function loadImages() {
+            try {
+                document.getElementById('loading').style.display = 'block';
+                document.getElementById('error').style.display = 'none';
+                allImages = [];
+                
+                // Scanner les dossiers Pokemon connus
+                for (const folder of KNOWN_FOLDERS) {
+                    try {
+                        const images = await scanFolder(folder);
+                        allImages.push(...images);
+                    } catch (e) {
+                        console.log(`Dossier ${folder} non trouvé ou vide`);
+                    }
+                }
+                
+                // Si aucune image trouvée avec les dossiers connus, scanner dynamiquement
+                if (allImages.length === 0) {
+                    console.log('Scanner dynamique...');
+                    const dynamicFolders = await scanPokemonFolders();
+                    for (const folder of dynamicFolders) {
+                        const images = await scanFolder(folder);
+                        allImages.push(...images);
+                    }
+                }
+                
+                updateStats();
+                displayImages(allImages);
+                
+                if (allImages.length > 0) {
+                    showSuccess(`${allImages.length} images Pokemon chargées avec succès !`);
+                } else {
+                    throw new Error('Aucune image trouvée. Vérifiez que des images Pokemon sont présentes.');
+                }
+                
+            } catch (error) {
+                console.error('Erreur:', error);
+                document.getElementById('error').textContent = `Erreur: ${error.message}`;
+                document.getElementById('error').style.display = 'block';
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+        
+        async function scanPokemonFolders() {
+            try {
+                const response = await fetch('/images/cards/pokemon/');
+                if (!response.ok) throw new Error('Dossier pokemon non accessible');
+                
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                const folders = Array.from(doc.querySelectorAll('a'))
+                    .map(link => link.getAttribute('href'))
+                    .filter(href => href && href !== '../' && href.match(/^[a-f0-9]{3}\/$/))
+                    .map(href => href.slice(0, -1));
+                    
+                console.log('Dossiers trouvés:', folders);
+                return folders;
+            } catch (e) {
+                console.error('Erreur scan dossiers:', e);
+                return [];
+            }
+        }
+        
+        async function scanFolder(folder) {
+            try {
+                const response = await fetch(`/images/cards/pokemon/${folder}/`);
+                if (!response.ok) return [];
+                
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                const images = Array.from(doc.querySelectorAll('a'))
+                    .map(link => link.getAttribute('href'))
+                    .filter(href => href && href.match(/\.(png|jpg|jpeg|webp)$/i))
+                    .map(href => ({
+                        name: href,
+                        path: `pokemon/${folder}/${href}`,
+                        url: `/images/cards/pokemon/${folder}/${href}`,
+                        folder: folder,
+                        id: href.replace(/\.[^/.]+$/, "") // Enlever l'extension
+                    }));
+                    
+                console.log(`Dossier ${folder}: ${images.length} images`);
+                return images;
+            } catch (e) {
+                console.error(`Erreur dossier ${folder}:`, e);
+                return [];
+            }
+        }
+        
+        function updateStats() {
+            const folders = [...new Set(allImages.map(img => img.folder))];
+            
+            document.getElementById('stats').innerHTML = `
+                <strong>${allImages.length}</strong> images Pokemon • 
+                <strong>${folders.length}</strong> dossiers (${folders.join(', ')})
+            `;
+        }
+        
+        function displayImages(images) {
+            const grid = document.getElementById('imageGrid');
+            grid.innerHTML = '';
+            
+            if (images.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: white; padding: 2rem;">Aucune image à afficher</div>';
+                return;
+            }
+            
+            images.forEach(img => {
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                card.onclick = () => openModal(img.url, img.name);
+                card.innerHTML = `
+                    <img src="${img.url}" alt="${img.name}" loading="lazy" onerror="this.style.display='none'" />
+                    <div class="image-info">
+                        <div class="image-name">${img.name}</div>
+                        <div class="image-path">ID: ${img.id}</div>
+                        <small>📁 ${img.folder}</small>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+        
+        function openModal(imageSrc, imageName) {
+            document.getElementById('modalImage').src = imageSrc;
+            document.getElementById('modalImage').alt = imageName;
+            document.getElementById('imageModal').style.display = 'block';
+            selectedImage = imageSrc;
+        }
+        
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+        
+        function refreshImages() {
+            showSuccess('Actualisation en cours...');
+            loadImages();
+        }
+        
+        function downloadImage() {
+            if (selectedImage) {
+                const a = document.createElement('a');
+                a.href = selectedImage;
+                a.download = selectedImage.split('/').pop();
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                showSuccess('Téléchargement lancé !');
+            } else {
+                alert('Sélectionnez une image en cliquant dessus');
+            }
+        }
+        
+        function openPokemonFolder() {
+            window.open('/images/cards/pokemon/', '_blank');
+        }
+        
+        function showSuccess(message) {
+            const successDiv = document.getElementById('success');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            setTimeout(() => {
+                successDiv.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Filtrage et tri
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = allImages.filter(img => 
+                img.name.toLowerCase().includes(query) || 
+                img.id.toLowerCase().includes(query) ||
+                img.folder.toLowerCase().includes(query)
+            );
+            displayImages(filtered);
+        });
+        
+        document.getElementById('sortSelect').addEventListener('change', (e) => {
+            const sortBy = e.target.value;
+            const sorted = [...allImages].sort((a, b) => {
+                switch(sortBy) {
+                    case 'name': return a.name.localeCompare(b.name);
+                    case 'folder': return a.folder.localeCompare(b.folder);
+                    default: return 0;
+                }
+            });
+            displayImages(sorted);
+        });
+        
+        // Fermer modal avec Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+        
+        // Gestion des clics sur modal
+        document.getElementById('imageModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('imageModal')) {
+                closeModal();
+            }
+        });
+        
+        // Charger les images au démarrage
+        console.log('Démarrage de l\'application...');
+        loadImages();
+    </script>
+</body>
+</html>

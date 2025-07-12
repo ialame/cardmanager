@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2023-08-30-01-001
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+         -  modifyDataType:
+              columnName:  message
+              newDataType:  clob
+              tableName:  j_hbn_revision_info

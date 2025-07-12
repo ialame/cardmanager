@@ -1,0 +1,59 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-05-28-01-add-localization-column
+      author: rah
+      comment: "Ajout de la colonne localization à la table card_image pour gérer la localisation des images"
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            columnExists:
+              tableName: card_image
+              columnName: localization
+      changes:
+        - addColumn:
+            tableName: card_image
+            columns:
+              - column:
+                  name: localization
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+                  remarks: "Localisation de l'image (ex: fr, en, es, de)"
+      rollback:
+        - dropColumn:
+            tableName: card_image
+            columnName: localization
+
+  - changeSet:
+      id: 2025-05-28-01-add-index-localization
+      author: rah
+      comment: "Ajout d'un index sur la colonne localization pour optimiser les requêtes"
+      changes:
+        - createIndex:
+            tableName: card_image
+            indexName: idx_card_image_localization
+            columns:
+              - column:
+                  name: localization
+      rollback:
+        - dropIndex:
+            tableName: card_image
+            indexName: idx_card_image_localization
+
+  - changeSet:
+      id: 2025-05-28-01-set-default-localization
+      author: rah
+      comment: "Mise à jour des enregistrements existants avec une localisation par défaut"
+      changes:
+        - sql:
+            sql: "UPDATE card_image SET localization = 'fr' WHERE localization IS NULL;"
+        - addDefaultValue:
+            tableName: card_image
+            columnName: localization
+            defaultValue: 'fr'
+      rollback:
+        - dropDefaultValue:
+            tableName: card_image
+            columnName: localization
+        - sql:
+            sql: "UPDATE card_image SET localization = NULL WHERE localization = 'fr';"

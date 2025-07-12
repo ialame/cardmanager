@@ -1,0 +1,120 @@
+services:
+  db:
+    image: cardmanager-database:latest  # Votre image DB personnalisée avec export
+    container_name: cardmanager-db-test
+    ports:
+      - "3307:3306"  # Pour accès local/debug
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: dev
+      MYSQL_USER: ia
+      MYSQL_PASSWORD: foufafou
+    volumes:
+      - db-data:/var/lib/mysql  # Persistance de la DB
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 120s  # Temps plus long pour import volumineux
+    networks:
+      - cardmanager-network
+
+  painter:
+    build:
+      context: .
+      dockerfile: painter/Dockerfile  # Supprimez .simple si c'est une variante ; adaptez
+    container_name: cardmanager-painter
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/dev?useSSL=false&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&noAccessToProcedureBodies=true&allowPublicKeyRetrieval=true&connectTimeout=60000
+      SPRING_DATASOURCE_USERNAME: ia
+      SPRING_DATASOURCE_PASSWORD: foufafou
+      PAINTER_SECURITY_LOGIN_ENABLED: false
+      PAINTER_IMAGE_STORAGE_PATH: /app/images/storage/
+    ports:
+      - "8081:8081"
+    volumes:
+      - painter_images:/app/images/storage
+    depends_on:
+      db:
+        condition: service_healthy  # Attend la DB
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "8081"]
+      interval: 30s
+      timeout: 15s
+      retries: 5
+      start_period: 90s
+    networks:
+      - cardmanager-network
+
+  retriever:
+    build:
+      context: .
+      dockerfile: gestioncarte/Dockerfile  # Adaptez si .simple
+    container_name: cardmanager-retriever
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/dev?useSSL=false&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&noAccessToProcedureBodies=true&allowPublicKeyRetrieval=true&connectTimeout=60000
+      SPRING_DATASOURCE_USERNAME: ia
+      SPRING_DATASOURCE_PASSWORD: foufafou
+      RETRIEVER_SECURITY_LOGIN_ENABLED: false
+      PAINTER_SERVICE_URL: http://painter:8081  # Utilise le nom du service
+    ports:
+      - "8080:8080"
+    depends_on:
+      painter:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+    volumes:
+      - retriever_uploads:/app/uploads
+      - retriever_logs:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - cardmanager-network
+
+  image-server:
+    image: nginx:alpine
+    container_name: cardmanager-image-server
+    ports:
+      - "8083:80"
+    volumes:
+      - painter_images:/usr/share/nginx/html/images:ro
+      - ./nginx-images.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./image-viewer.html:/usr/share/nginx/html/image-viewer.html:ro
+    depends_on:
+      - painter
+    networks:
+      - cardmanager-network
+
+  adminer:
+    image: adminer:4.8.1
+    container_name: cardmanager-adminer
+    ports:
+      - "8082:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: db  # Utilise le nom du service DB
+      ADMINER_DESIGN: pepa-linha
+    depends_on:
+      - db
+    networks:
+      - cardmanager-network
+
+volumes:
+  db-data:
+    driver: local
+  retriever_uploads:
+    driver: local
+  retriever_logs:
+    driver: local
+  painter_images:
+    driver: local
+
+networks:
+  cardmanager-network:
+    name: cardmanager-network
+    driver: bridge

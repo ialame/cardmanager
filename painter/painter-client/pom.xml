@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.pcagrade.painter</groupId>
+		<artifactId>painter-parent</artifactId>
+		<version>1.3.0</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<artifactId>painter-client</artifactId>
+	<packaging>jar</packaging>
+
+	<name>Painter Client</name>
+	<description>Client library for Painter</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.pcagrade.mason</groupId>
+			<artifactId>mason-web-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.pcagrade.painter</groupId>
+			<artifactId>painter-common</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.pcagrade.mason</groupId>
+			<artifactId>mason-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>21</source>
+					<target>21</target>
+<!--					<compilerArgs>&#45;&#45;enable-preview</compilerArgs>-->
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,59 @@
+# À placer à la racine du projet : .dockerignore
+
+# Fichiers de build
+target/
+build/
+dist/
+node_modules/
+
+# Fichiers IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Fichiers temporaires
+*.tmp
+*.temp
+*.log
+*.swp
+*.swo
+*~
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers Git
+.git/
+.gitignore
+
+# Documentation
+README.md
+*.md
+docs/
+
+# Fichiers Docker (éviter la récursion)
+Dockerfile
+#docker-compose*.yml
+#.dockerignore
+
+# Fichiers de configuration locale
+application-local.properties
+application-*.properties
+!application-docker.properties
+
+# Cache et données temporaires
+cache/
+logs/
+tmp/
+
+# Fichiers frontend development
+gestioncarte/src/main/frontend/node_modules/
+gestioncarte/src/main/frontend/dist/
+gestioncarte/src/main/frontend/.vite/
+
+# Tests
+**/test-results/
+**/coverage/

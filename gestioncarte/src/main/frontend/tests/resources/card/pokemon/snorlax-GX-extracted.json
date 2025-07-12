@@ -1,0 +1,94 @@
+{
+  "id": null,
+  "link": "https://bulbapedia.bulbagarden.net/wiki/Snorlax-GX_%28SM-P_Promo_1%29",
+  "type": "Colorless",
+  "brackets": [],
+  "parentId": null,
+  "featureIds": [
+    "01G4GFKS1X47GNF95CT50H17JS"
+  ],
+  "translations": {
+    "us": {
+      "localization": "us",
+      "name": "Snorlax GX",
+      "labelName": "Snorlax GX",
+      "number": "SM05",
+      "originalName": "",
+      "rarity": "Promo",
+      "trainer": "",
+      "available": true
+    },
+    "jp": {
+      "localization": "jp",
+      "name": "Snorlax GX",
+      "labelName": "Snorlax GX",
+      "number": "001/SM-P",
+      "originalName": "カビゴンGX",
+      "rarity": "Promo",
+      "trainer": "",
+      "available": true
+    },
+    "fr": {
+      "localization": "fr",
+      "name": "Ronflex GX",
+      "labelName": "Ronflex GX",
+      "number": "SM05",
+      "originalName": "",
+      "rarity": "Promo",
+      "trainer": "",
+      "available": true
+    },
+    "it": {
+      "localization": "it",
+      "name": "Snorlax GX",
+      "labelName": "Snorlax GX",
+      "number": "SM05",
+      "originalName": "",
+      "rarity": "Promo",
+      "trainer": "",
+      "available": true
+    },
+    "de": {
+      "localization": "de",
+      "name": "Relaxo GX",
+      "labelName": "Relaxo GX",
+      "number": "SM05",
+      "originalName": "",
+      "rarity": "Promo",
+      "trainer": "",
+      "available": true
+    },
+    "es": {
+      "localization": "es",
+      "name": "Snorlax GX",
+      "labelName": "Snorlax GX",
+      "number": "SM05",
+      "originalName": "",
+      "rarity": "Promo",
+      "trainer": "",
+      "available": true
+    }
+  },
+  "setIds": [
+    "01G4GEQXF5M45M0SMKW3ADVDWS",
+    "01G4GEQXEX2X6291YJRM1RQVK3"
+  ],
+  "promos": [
+    {
+      "id": null,
+      "name": "Pokémon Sun and Moon pre-order insert",
+      "localization": "jp"
+    },
+    {
+      "id": null,
+      "name": "Snorlax-GX Box",
+      "localization": "us"
+    }
+  ],
+  "distribution": false,
+  "alternate": false,
+  "idPrim": null,
+  "fullArt": false,
+  "extractionStatus": null,
+  "artist": null
+}

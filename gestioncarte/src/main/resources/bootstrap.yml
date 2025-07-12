@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: retriever
+  cloud:
+    kubernetes:
+      config:
+        name: retriever-config
+        namespace: pca
+      secrets:
+        name: retriever-secret
+        namespace: pca
+        enabled: true
+        enable-api: true

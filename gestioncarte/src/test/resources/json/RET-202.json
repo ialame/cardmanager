@@ -1,0 +1,31 @@
+{
+    "id": null,
+    "link": null,
+    "type": "Fire",
+    "type2": null,
+    "brackets": [],
+    "parentId": null,
+    "featureIds": [],
+    "translations": {
+        "jp": {
+            "localization": "jp",
+            "name": "Magmar",
+            "labelName": "Magmar",
+            "number": "126/165",
+            "originalName": "ブーバー",
+            "rarity": "C",
+            "trainer": "",
+            "available": true
+        }
+    },
+    "setIds": [],
+    "promos": [],
+    "tags": [],
+    "distribution": false,
+    "alternate": false,
+    "idPrim": null,
+    "fullArt": false,
+    "extractionStatus": null,
+    "artist": "Toshinao Aoki",
+    "level": 0
+}

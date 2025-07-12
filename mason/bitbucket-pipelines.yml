@@ -1,0 +1,40 @@
+image: maven:3-eclipse-temurin-21
+
+definitions:
+  caches:
+    sonar: ~/.sonar
+  steps:
+    - step: &build-test
+        name: Build and test
+        caches:
+          - maven
+        script:
+          - mkdir -p ~/.m2
+          - (umask  077 ; echo $MAVEN_SETTINGS | base64 --decode > ~/.m2/settings.xml)
+          - mvn -B -e verify -Ptest -Dspring.profiles.active=test --file pom.xml
+
+pipelines:
+  pull-requests:
+    '**':
+      - step: *build-test
+  branches:
+    develop:
+      - step:
+          name: Sonar
+          <<: *build-test
+          caches:
+            - maven
+            - sonar
+          script:
+            - mkdir -p ~/.m2
+            - (umask  077 ; echo $MAVEN_SETTINGS | base64 --decode > ~/.m2/settings.xml)
+            - mvn -B -e verify -Ptest -Dspring.profiles.active=test sonar:sonar
+    master:
+      - step:
+          name: Publish
+          caches:
+            - maven
+          script:
+            - mkdir -p ~/.m2
+            - (umask  077 ; echo $MAVEN_SETTINGS | base64 --decode > ~/.m2/settings.xml)
+            - mvn -B -e deploy -DskipTests --file pom.xml

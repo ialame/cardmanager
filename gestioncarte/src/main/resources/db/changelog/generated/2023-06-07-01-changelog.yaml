@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1686143002352-492
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_j_yugipedia_set
+                  name: id
+                  type: INT
+              - column:
+                  name: url
+                  type: VARCHAR(255)
+              - column:
+                  name: localization
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: set_id
+                  type: BINARY(16)
+                  remarks: (DC2Type:ulid)
+            tableName: j_yugipedia_set
+  - changeSet:
+      id: 1686143002352-497
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: url, localization
+            constraintName: uc_337dbfc8a3909dad00535967f
+            tableName: j_yugipedia_set
+  - changeSet:
+      id: 1686143002352-500
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: set_id
+            baseTableName: j_yugipedia_set
+            constraintName: FK_J_YUGIPEDIA_SET_ON_SET
+            referencedColumnNames: id
+            referencedTableName: yugioh_set

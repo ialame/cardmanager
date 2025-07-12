@@ -1,0 +1,1 @@
+export { default as PokemonSerieEditForm } from './PokemonSerieEditForm.vue';

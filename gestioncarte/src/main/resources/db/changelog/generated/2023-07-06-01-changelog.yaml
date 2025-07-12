@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1688648362094-495
+      author: GCA
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_j_field_mapping
+                  name: id
+                  type: INT
+              - column:
+                  name: field
+                  type: VARCHAR(255)
+              - column:
+                  name: regex
+                  type: BOOLEAN
+              - column:
+                  name: source
+                  type: VARCHAR(255)
+              - column:
+                  name: value
+                  type: VARCHAR(255)
+            tableName: j_field_mapping

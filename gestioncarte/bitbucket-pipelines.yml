@@ -1,0 +1,86 @@
+image: maven:3-eclipse-temurin-21
+
+definitions:
+  services:
+    docker:
+      memory: 2048
+  caches:
+    ptcgo: target/git/ptcgo-data
+    node-bin: target/node
+    frontend: src/main/frontend/node_modules
+    sonar: ~/.sonar
+    pages: target/cache/pages
+  steps:
+    - step: &build-test
+        name: Build and Test
+        caches:
+          - maven
+          - node-bin
+          - frontend
+          - ptcgo
+          - pages
+        script:
+          - mkdir -p ~/.m2
+          - (umask  077 ; echo $MAVEN_SETTINGS | base64 --decode > ~/.m2/settings.xml)
+          - mvn -B -e verify -Ptest -Dspring.profiles.active=test --file pom.xml
+        after-script:
+          - pipe: atlassian/checkstyle-report:0.4.0
+    - step: &atlassian-scan
+        name: Security Scan
+        script:
+          - pipe: atlassian/git-secrets-scan:1.2.1
+
+pipelines:
+  pull-requests:
+    '**':
+      - parallel:
+        - step: *build-test
+        - step: *atlassian-scan
+  branches:
+    master:
+      - step:
+          name: Build Docker Image
+          caches:
+            - docker
+          services:
+            - docker
+          script:
+            - (umask  077 ; echo $MAVEN_SETTINGS | base64 --decode > ./settings.xml)
+            - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD registry.pcagrade.com
+            - docker build -t registry.pcagrade.com/pcagrade/retriever:latest .
+            - docker push registry.pcagrade.com/pcagrade/retriever:latest
+      - step:
+          name: Tag Release
+          script:
+            - mkdir -p ~/.m2
+            - (umask  077 ; echo $MAVEN_SETTINGS | base64 --decode > ~/.m2/settings.xml)
+            - MVN_VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+            - git tag -a $MVN_VERSION -m "Release $MVN_VERSION"
+            - git push origin $MVN_VERSION
+      - step:
+          name: Deploy Production
+          deployment: Production
+          script:
+            - pipe: atlassian/kubectl-run:3.8.0
+              variables:
+                KUBE_CONFIG: $KUBE_CONFIG_DATA
+                KUBE_NAMESPACE: pca
+                KUBECTL_COMMAND: 'rollout restart deployment/retriever-deployment'
+    develop:
+      - parallel:
+        - step:
+            name: Sonar
+            <<: *build-test
+            size: 2x
+            caches:
+              - maven
+              - node-bin
+              - frontend
+              - ptcgo
+              - sonar
+              - pages
+            script:
+              - mkdir -p ~/.m2
+              - (umask  077 ; echo $MAVEN_SETTINGS | base64 --decode > ~/.m2/settings.xml)
+              - mvn -B -e verify -Ptest -Dspring.profiles.active=test sonar:sonar
+        - step: *atlassian-scan
